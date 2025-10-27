@@ -1,0 +1,55 @@
+services:
+  currency:
+    image: currencyexchange/currency:native
+    container_name: currency-service-native
+    ports:
+      - "8082:8082"
+    networks:
+      - currency-exchange-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/q/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  trades:
+    image: currencyexchange/trades:native
+    container_name: trades-service-native
+    ports:
+      - "8083:8083"
+    networks:
+      - currency-exchange-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/q/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  portfolio:
+    image: currencyexchange/portfolio:native
+    container_name: portfolio-service-native
+    ports:
+      - "8080:8080"
+    environment:
+      - QUARKUS_GRPC_CLIENTS_CURRENCY_HOST=currency
+      - QUARKUS_GRPC_CLIENTS_CURRENCY_PORT=8082
+      - QUARKUS_REST_CLIENT_TRADES_URL=http://trades:8083
+    depends_on:
+      currency:
+        condition: service_healthy
+      trades:
+        condition: service_healthy
+    networks:
+      - currency-exchange-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  currency-exchange-network:
+    driver: bridge

@@ -1,0 +1,74 @@
+{#include base.html}
+    {#title}Sign In{/title}
+
+    {#insert}
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-person-circle display-4 text-primary"></i>
+                            <h2 class="card-title mt-2">Sign In</h2>
+                        </div>
+
+                        {#form uri:WebApplication.signin}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control {#if loginError}is-invalid{/if}"
+                                       id="email" name="email" value="{email ?: ''}" required>
+                                {#if loginError}
+                                    <div class="invalid-feedback">
+                                        {loginError}
+                                    </div>
+                                {/if}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control {#if passwordError}is-invalid{/if}"
+                                       id="password" name="password" required>
+                                {#if passwordError}
+                                    <div class="invalid-feedback">
+                                        {passwordError}
+                                    </div>
+                                {/if}
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                </button>
+                            </div>
+                        {/form}
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <small class="text-muted">Demo Accounts:</small>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm me-2 mb-2" onclick="quickLogin('john.doe@example.com', 'password')">
+                                    <i class="bi bi-person me-1"></i>John Doe
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm me-2 mb-2"
+                                        onclick="quickLogin('jane.smith@example.com', 'password')">
+                                    <i class="bi bi-person me-1"></i>Jane Smith
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm mb-2" onclick="quickLogin('bob.johnson@example.com', 'password')">
+                                    <i class="bi bi-person me-1"></i>Bob Johnson
+                                </button>
+                            </div>
+                            <small class="text-muted d-block mt-2">Click to auto-fill credentials</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {/insert}
+
+    <script>
+        function quickLogin(email, password) {
+            document.querySelector('input[name="email"]').value = email;
+            document.querySelector('input[name="password"]').value = password;
+        }
+    </script>
+{/include}
