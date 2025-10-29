@@ -17,10 +17,10 @@ import java.util.List;
 @RegisterRestClient(configKey = "trades")
 public interface TradeService {
 
-    @POST
-    void executeTrade(Trade trade);
+  @POST
+  void executeTrade(Trade trade);
 
-    @GET
-    @Path("/{userId}")
-    List<Trade> getAllTrades(@PathParam("userId") String userId);
+  @GET
+  @Path("/{userId}")
+  List<Trade> getAllTrades(@PathParam("userId") String userId);
 }

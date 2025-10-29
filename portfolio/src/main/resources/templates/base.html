@@ -1,109 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Currency Exchange Portfolio</title>
-    <link rel="stylesheet" media="screen" href="/_static/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" media="screen" href="/_static/bootstrap-icons/font/bootstrap-icons.css">
-    <script src="/_static/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript" charset="UTF-8"></script>
-    <style>
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .currency-card {
-            transition: transform 0.2s;
-        }
-        .currency-card:hover {
-            transform: translateY(-2px);
-        }
-        .balance-amount {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Currency Exchange Portfolio</title>
+  <link rel="stylesheet" media="screen" href="/_static/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" media="screen" href="/_static/bootstrap-icons/font/bootstrap-icons.css">
+  <script src="/_static/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript" charset="UTF-8"></script>
+  <style>
+    .navbar-brand {
+      font-weight: bold;
+    }
+
+    .currency-card {
+      transition: transform 0.2s;
+    }
+
+    .currency-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .balance-amount {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="bi bi-currency-exchange me-2"></i>Currency Exchange
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="bi bi-currency-exchange me-2"></i>Currency Exchange
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+      </ul>
+
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="devUiDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-gear me-1"></i>Dev UI
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="http://localhost:8080/q/dev-ui" target="_blank">
+                <i class="bi bi-briefcase me-1"></i>Portfolio
+              </a></li>
+            <li><a class="dropdown-item" href="http://localhost:8082/q/dev-ui" target="_blank">
+                <i class="bi bi-currency-dollar me-1"></i>Currency
+              </a></li>
+            <li><a class="dropdown-item" href="http://localhost:8083/q/dev-ui" target="_blank">
+                <i class="bi bi-graph-up me-1"></i>Trades
+              </a></li>
+          </ul>
+        </li>
+        {#if user()}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle me-1"></i>{user().name} {user().surname}
             </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
+              <li><a class="dropdown-item" href="/profile">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
+          </li>
+        {#else}
+          <li class="nav-item">
+            <a class="nav-link" href="/signin">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+            </a>
+          </li>
+        {/if}
+      </ul>
+    </div>
+  </div>
+</nav>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<!-- Main Content -->
+<main class="container mt-4">
+  {#insert}
+    <div class="row">
+      <div class="col-12">
+        <h1>Welcome to Currency Exchange Portfolio</h1>
+        <p>Manage your currency portfolios and track exchange rates.</p>
+      </div>
+    </div>
+  {/insert}
+</main>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                </ul>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="devUiDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-1"></i>Dev UI
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://localhost:8080/q/dev-ui" target="_blank">
-                                <i class="bi bi-briefcase me-1"></i>Portfolio
-                            </a></li>
-                            <li><a class="dropdown-item" href="http://localhost:8082/q/dev-ui" target="_blank">
-                                <i class="bi bi-currency-dollar me-1"></i>Currency
-                            </a></li>
-                            <li><a class="dropdown-item" href="http://localhost:8083/q/dev-ui" target="_blank">
-                                <i class="bi bi-graph-up me-1"></i>Trades
-                            </a></li>
-                        </ul>
-                    </li>
-                    {#if user()}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle me-1"></i>{user().name} {user().surname}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
-                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                        </ul>
-                    </li>
-                    {#else}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signin">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
-                        </a>
-                    </li>
-                    {/if}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="container mt-4">
-        {#insert}
-        <div class="row">
-            <div class="col-12">
-                <h1>Welcome to Currency Exchange Portfolio</h1>
-                <p>Manage your currency portfolios and track exchange rates.</p>
-            </div>
-        </div>
-        {/insert}
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light mt-5 py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; 2025 Currency Exchange Portfolio. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-end">
-                </div>
-            </div>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer class="bg-dark text-light mt-5 py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <p>&copy; 2025 Currency Exchange Portfolio. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-end">
+      </div>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>

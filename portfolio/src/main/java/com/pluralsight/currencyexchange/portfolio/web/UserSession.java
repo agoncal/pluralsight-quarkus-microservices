@@ -6,21 +6,21 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class UserSession {
 
-    private User currentUser;
+  private User currentUser;
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
+  public User getCurrentUser() {
+    return currentUser;
+  }
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-    }
+  public void setCurrentUser(User user) {
+    this.currentUser = user;
+  }
 
-    public boolean isLoggedIn() {
-        return currentUser != null;
-    }
+  public boolean isLoggedIn() {
+    return currentUser != null;
+  }
 
-    public void logout() {
-        this.currentUser = null;
-    }
+  public void logout() {
+    this.currentUser = null;
+  }
 }

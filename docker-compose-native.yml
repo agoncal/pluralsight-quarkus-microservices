@@ -7,7 +7,7 @@ services:
     networks:
       - currency-exchange-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8082/q/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/q/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -21,7 +21,7 @@ services:
     networks:
       - currency-exchange-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8083/q/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/q/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -44,7 +44,7 @@ services:
     networks:
       - currency-exchange-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/q/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

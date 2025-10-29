@@ -9,15 +9,15 @@ option java_outer_classname = "CurrencyRateServiceProto";
 
 // Service
 service CurrencyRateService {
-    rpc GetAllCurrentRates(google.protobuf.Empty) returns (CurrencyRateListResponse);
-    rpc GetCurrentRate(CurrencyRequest) returns (CurrencyRateResponse);
+  rpc GetAllCurrentRates(google.protobuf.Empty) returns (CurrencyRateListResponse);
+  rpc GetCurrentRate(CurrencyRequest) returns (CurrencyRateResponse);
 }
 
 // Messages
 message CurrencyRate {
-    string currency_code = 1;  // Target currency code (EUR, GBP, JPY, etc.)
-    double rate = 2;           // Exchange rate (1 USD = 0.9217 EUR)
-    string timestamp = 3;      // When the rate was calculated (ISO format)
+  string currency_code = 1;  // Target currency code (EUR, GBP, JPY, etc.)
+  double rate = 2;           // Exchange rate (1 USD = 0.9217 EUR)
+  string timestamp = 3;      // When the rate was calculated (ISO format)
 }
 
 message CurrencyRateListResponse {
@@ -25,9 +25,9 @@ message CurrencyRateListResponse {
 }
 
 message CurrencyRequest {
-    string currency_code = 1;  // EUR, GBP, JPY, etc.
+  string currency_code = 1;  // EUR, GBP, JPY, etc.
 }
 
 message CurrencyRateResponse {
-    CurrencyRate currency_rate = 1;
+  CurrencyRate currency_rate = 1;
 }

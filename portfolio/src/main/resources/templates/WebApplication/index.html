@@ -1,57 +1,57 @@
 {#include base.html}
-    {#title}Currency Exchange Portfolio{/title}
+  {#title}Currency Exchange Portfolio{/title}
 
-    {#insert}
-        <div class="row">
-            <div class="col-12">
-                <div class="jumbotron bg-primary text-white rounded p-5 mb-4">
-                    <div class="container-fluid py-5">
-                        <h1 class="display-5 fw-bold">Currency Exchange Portfolio</h1>
-                        <p class="col-md-8 fs-4">
-                            Manage your multi-currency portfolio and track your balances across different currencies.
-                        </p>
-                        {#if ! isLoggedIn()}
-                            <a class="btn btn-light btn-lg" href="/signin" role="button">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Get Started
-                            </a>
-                        {#else}
-                            <a class="btn btn-light btn-lg" href="/portfolio" role="button">
-                                <i class="bi bi-wallet2 me-2"></i>View Portfolio
-                            </a>
-                        {/if}
-                    </div>
-                </div>
-            </div>
+  {#insert}
+    <div class="row">
+      <div class="col-12">
+        <div class="jumbotron bg-primary text-white rounded p-5 mb-4">
+          <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Currency Exchange Portfolio</h1>
+            <p class="col-md-8 fs-4">
+              Manage your multi-currency portfolio and track your balances across different currencies.
+            </p>
+            {#if ! isLoggedIn()}
+              <a class="btn btn-light btn-lg" href="/signin" role="button">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Get Started
+              </a>
+            {#else}
+              <a class="btn btn-light btn-lg" href="/portfolio" role="button">
+                <i class="bi bi-wallet2 me-2"></i>View Portfolio
+              </a>
+            {/if}
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-currency-exchange display-4 text-primary mb-3"></i>
-                        <h5 class="card-title">Multi-Currency Support</h5>
-                        <p class="card-text">Track balances across USD, EUR, GBP, JPY, CHF, CAD, and AUD.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-graph-up display-4 text-success mb-3"></i>
-                        <h5 class="card-title">Real-time Updates</h5>
-                        <p class="card-text">Keep track of your portfolio with up-to-date balance information.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-shield-check display-4 text-info mb-3"></i>
-                        <h5 class="card-title">Secure Access</h5>
-                        <p class="card-text">Your financial data is protected with secure authentication.</p>
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-currency-exchange display-4 text-primary mb-3"></i>
+            <h5 class="card-title">Multi-Currency Support</h5>
+            <p class="card-text">Track balances across USD, EUR, GBP, JPY, CHF, CAD, and AUD.</p>
+          </div>
         </div>
-    {/insert}
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-graph-up display-4 text-success mb-3"></i>
+            <h5 class="card-title">Real-time Updates</h5>
+            <p class="card-text">Keep track of your portfolio with up-to-date balance information.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-shield-check display-4 text-info mb-3"></i>
+            <h5 class="card-title">Secure Access</h5>
+            <p class="card-text">Your financial data is protected with secure authentication.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {/insert}
 {/include}

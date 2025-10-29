@@ -1,6 +1,7 @@
 # Currency Exchange
 
-A microservices application for managing currency exchange operations, built with **Quarkus** and **Java 21**. The system demonstrates enterprise-grade patterns including gRPC communication, REST APIs, fault tolerance, server-rendered web UI and containerization with Docker.
+A microservices application for managing currency exchange operations, built with **Quarkus** and **Java 21**. The system demonstrates enterprise-grade patterns
+including gRPC communication, REST APIs, fault tolerance, server-rendered web UI and containerization with Docker.
 
 ## Overview
 
@@ -83,18 +84,21 @@ mvn clean package
 Open three terminal windows and start each service:
 
 **Terminal 1 - Currency Service:**
+
 ```bash
 cd currency
 ./mvnw quarkus:dev
 ```
 
 **Terminal 2 - Trades Service:**
+
 ```bash
 cd trades
 ./mvnw quarkus:dev
 ```
 
 **Terminal 3 - Portfolio Service:**
+
 ```bash
 cd portfolio
 ./mvnw quarkus:dev
@@ -112,6 +116,7 @@ cd portfolio
 ### 5. Login
 
 Use one of the test accounts (password: `password` for all):
+
 - john.doe@example.com
 - jane.smith@example.com
 - bob.johnson@example.com
@@ -130,6 +135,7 @@ quarkus dev
 ### Accessing Dev UI
 
 Each service has a Dev UI console accessible from the web UI "Dev UI" menu, or directly:
+
 - Portfolio: http://localhost:8080/q/dev-ui
 - Currency: http://localhost:8082/q/dev-ui
 - Trades: http://localhost:8083/q/dev-ui
@@ -213,6 +219,7 @@ grpcurl --plaintext localhost:8082 describe currency.CurrencyRateService
 grpcurl --plaintext localhost:8082 currency.CurrencyRateService/GetAllCurrentRates
 grpcurl --plaintext -d '{"currency_code": "AUD"}' localhost:8082 currency.CurrencyRateService/GetCurrentRate
 ```
+
 ### Testing the REST Trade service with curl
 
 The Trade service can be accessed with curl for easy testing:
@@ -239,16 +246,19 @@ curl -X 'GET' \
 ### Trades Service REST API
 
 When running in dev mode, access the OpenAPI documentation:
+
 - Swagger UI: http://localhost:8083/q/swagger-ui
 - OpenAPI Spec: http://localhost:8083/q/openapi
 
 **Endpoints:**
+
 - `POST /api/trades` - Execute a trade
 - `GET /api/trades/{userId}` - Get user trade history
 
 ### Currency Service gRPC API
 
 **Methods:**
+
 - `GetCurrentRate(CurrencyRequest)` - Get rate for a specific currency
 - `GetAllCurrentRates(Empty)` - Get rates for all 6 currencies
 
@@ -259,6 +269,7 @@ When running in dev mode, access the OpenAPI documentation:
 ### Build Native Executables
 
 **With GraalVM installed locally:**
+
 ```bash
 # Using Quarkus CLI
 quarkus build --clean --no-tests --native
@@ -268,6 +279,7 @@ mvn package -Dnative
 ```
 
 **Using container build:**
+
 ```bash
 mvn package -Dnative -Dquarkus.native.container-build=true
 ```
@@ -309,6 +321,7 @@ docker run -i --rm -p 8080:8080 \
 ### Available Dockerfiles
 
 Each service includes multiple Dockerfile variants in `src/main/docker/`:
+
 - `Dockerfile.jvm` - Standard JVM image
 - `Dockerfile.native` - GraalVM native image
 - `Dockerfile.native-micro` - Minimal native image
@@ -348,18 +361,21 @@ docker compose -p currencyexchange-native -f docker-compose-native.yml down
 ### Key Configuration Properties
 
 **Currency Service** (`currency/src/main/resources/application.properties`):
+
 ```properties
 quarkus.grpc.server.port=8082
 quarkus.grpc.server.enable-reflection-service=true
 ```
 
 **Trades Service** (`trades/src/main/resources/application.properties`):
+
 ```properties
 quarkus.http.port=8083
 quarkus.smallrye-openapi.info-title=Currency Exchange Trades API
 ```
 
 **Portfolio Service** (`portfolio/src/main/resources/application.properties`):
+
 ```properties
 quarkus.http.port=8080
 quarkus.grpc.clients.currency.host=localhost
@@ -372,6 +388,7 @@ quarkus.rest-client.trades.url=http://localhost:8083
 ### Exchange Rate Calculation
 
 Currency rates fluctuate dynamically using a sin-based algorithm:
+
 - Base rates stored in static map
 - Per-currency seeds (1000-6000L) create independent movements
 - Fluctuation range: ±1 unit around base rate
@@ -390,6 +407,7 @@ Currency rates fluctuate dynamically using a sin-based algorithm:
 ### Services Won't Start
 
 Ensure ports 8080, 8082, and 8083 are available:
+
 ```bash
 lsof -i :8080
 lsof -i :8082
@@ -399,6 +417,7 @@ lsof -i :8083
 ### gRPC Connection Issues
 
 Verify Currency service is running and accessible:
+
 ```bash
 grpcurl -plaintext localhost:8082 list
 ```
