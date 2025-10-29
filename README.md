@@ -250,6 +250,16 @@ When running in dev mode, access the OpenAPI documentation:
 - Swagger UI: http://localhost:8083/q/swagger-ui
 - OpenAPI Spec: http://localhost:8083/q/openapi
 
+**Access via curl:**
+
+```bash
+# Get OpenAPI spec in JSON format
+curl http://localhost:8083/q/openapi?format=json
+
+# Get OpenAPI spec in YAML format
+curl http://localhost:8083/q/openapi?format=yaml
+```
+
 **Endpoints:**
 
 - `POST /api/trades` - Execute a trade
