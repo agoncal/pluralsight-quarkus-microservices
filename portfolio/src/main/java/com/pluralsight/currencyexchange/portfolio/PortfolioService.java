@@ -10,11 +10,13 @@ import com.pluralsight.currencyexchange.portfolio.trade.TradeService;
 import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -62,6 +64,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackGetAllTrades")
+  @Retry(maxRetries = 3, delay = 5, delayUnit = ChronoUnit.SECONDS)
   public List<Trade> getAllTrades(String userId) {
     LOG.info("Get all trades");
 
