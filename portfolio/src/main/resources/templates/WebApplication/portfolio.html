@@ -213,7 +213,13 @@
                           <span class="badge bg-secondary">{trade.toCurrency}</span>
                         </td>
                         <td class="text-end">
-                          <small>{trade.exchangeRate}</small>
+                          <small>
+                            {#if trade.exchangeRate == 0}
+                              -.-
+                            {#else}
+                              {trade.exchangeRate}
+                            {/if}
+                          </small>
                         </td>
                         <td class="text-end">
                           {#if trade.convertedAmount}

@@ -71,11 +71,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-observability-devservices-lgtm</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!-- Web -->
     <dependency>
       <groupId>io.quarkus</groupId>

@@ -7,8 +7,11 @@ import com.pluralsight.currencyexchange.currency.CurrencyRequest;
 import static com.pluralsight.currencyexchange.portfolio.User.USER_PORTFOLIOS;
 import com.pluralsight.currencyexchange.portfolio.trade.Trade;
 import com.pluralsight.currencyexchange.portfolio.trade.TradeService;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -31,6 +34,9 @@ public class PortfolioService {
 
   @RestClient
   TradeService tradeService;
+  
+  @Inject
+  MeterRegistry meterRegistry;
 
   public List<Portfolio> getUserPortfolio(String userId) {
     LOG.info("Get portfolio for user " + userId);
@@ -42,6 +48,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackGetAllCurrentRates")
+  @Timed(value = "mymetric.portfolio.getAllCurrentRates")
   public List<CurrencyRate> getAllCurrentRates() {
     LOG.info("Get all currency rates");
 
@@ -49,6 +56,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackGetCurrentRate")
+  @Timed(value = "mymetric.portfolio.getCurrentRate")
   public CurrencyRate getCurrentRate(String currencyCode) {
     LOG.info("Get currency rate: " + currencyCode);
 
@@ -56,6 +64,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackExecuteTrade")
+  @Timed(value = "mymetric.portfolio.executeTrade")
   public void executeTrade(Trade trade) {
     LOG.info("Execute trade: " + trade);
 
@@ -65,6 +74,7 @@ public class PortfolioService {
 
   @Fallback(fallbackMethod = "fallbackGetAllTrades")
   @Retry(maxRetries = 3, delay = 5, delayUnit = ChronoUnit.SECONDS)
+  @Timed(value = "mymetric.portfolio.getAllTrades")
   public List<Trade> getAllTrades(String userId) {
     LOG.info("Get all trades");
 
@@ -73,6 +83,7 @@ public class PortfolioService {
 
   public List<CurrencyRate> fallbackGetAllCurrentRates() {
     LOG.warn("Falling back on get all currency rates");
+    meterRegistry.counter("mymetric.portfolio.fallback.getAllCurrentRates");
     return List.of(
       CurrencyRate.newBuilder().setCurrencyCode("AUD").setRate(0).build(),
       CurrencyRate.newBuilder().setCurrencyCode("CAD").setRate(0).build(),
@@ -85,6 +96,7 @@ public class PortfolioService {
 
   public CurrencyRate fallbackGetCurrentRate(String currencyCode) {
     LOG.warn("Falling back on get currency rate: " + currencyCode);
+    meterRegistry.counter("mymetric.portfolio.fallback.getCurrentRate");
 
     return CurrencyRate.newBuilder().setCurrencyCode(currencyCode).setRate(0).build();
   }
@@ -93,12 +105,14 @@ public class PortfolioService {
 
   public void fallbackExecuteTrade(Trade trade) {
     LOG.warn("Falling back on execute trade: " + trade);
+    meterRegistry.counter("mymetric.portfolio.fallback.executeTrade");
 
     FALLBACK_TRADES.add(trade);
   }
 
   public List<Trade> fallbackGetAllTrades(String userId) {
     LOG.warn("Falling back on get all trades");
+    meterRegistry.counter("mymetric.portfolio.fallback.getAllTrades");
 
     return FALLBACK_TRADES;
   }
