@@ -8,8 +8,10 @@ import static com.pluralsight.currencyexchange.portfolio.User.USER_PORTFOLIOS;
 import com.pluralsight.currencyexchange.portfolio.trade.Trade;
 import com.pluralsight.currencyexchange.portfolio.trade.TradeService;
 import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.quarkus.grpc.GrpcClient;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.faulttolerance.Fallback;
@@ -34,9 +36,16 @@ public class PortfolioService {
 
   @RestClient
   TradeService tradeService;
-  
+
   @Inject
   MeterRegistry meterRegistry;
+
+  Counter fallbackCounter;
+
+  @PostConstruct
+  void init() {
+    fallbackCounter = meterRegistry.counter("mymetric.portfolio.fallback");
+  }
 
   public List<Portfolio> getUserPortfolio(String userId) {
     LOG.info("Get portfolio for user " + userId);
@@ -83,7 +92,7 @@ public class PortfolioService {
 
   public List<CurrencyRate> fallbackGetAllCurrentRates() {
     LOG.warn("Falling back on get all currency rates");
-    meterRegistry.counter("mymetric.portfolio.fallback.getAllCurrentRates");
+    fallbackCounter.increment();
     return List.of(
       CurrencyRate.newBuilder().setCurrencyCode("AUD").setRate(0).build(),
       CurrencyRate.newBuilder().setCurrencyCode("CAD").setRate(0).build(),
@@ -96,7 +105,7 @@ public class PortfolioService {
 
   public CurrencyRate fallbackGetCurrentRate(String currencyCode) {
     LOG.warn("Falling back on get currency rate: " + currencyCode);
-    meterRegistry.counter("mymetric.portfolio.fallback.getCurrentRate");
+    fallbackCounter.increment();
 
     return CurrencyRate.newBuilder().setCurrencyCode(currencyCode).setRate(0).build();
   }
@@ -105,14 +114,14 @@ public class PortfolioService {
 
   public void fallbackExecuteTrade(Trade trade) {
     LOG.warn("Falling back on execute trade: " + trade);
-    meterRegistry.counter("mymetric.portfolio.fallback.executeTrade");
+    fallbackCounter.increment();
 
     FALLBACK_TRADES.add(trade);
   }
 
   public List<Trade> fallbackGetAllTrades(String userId) {
     LOG.warn("Falling back on get all trades");
-    meterRegistry.counter("mymetric.portfolio.fallback.getAllTrades");
+    fallbackCounter.increment();
 
     return FALLBACK_TRADES;
   }
