@@ -89,7 +89,11 @@
                       {#case 'AUD'}
                         <i class="bi bi-currency-bitcoin me-2"></i>
                     {/switch}
-                    {exchangeRate.rate}
+                    {#if exchangeRate.rate == 0}
+                      -.-
+                    {#else}
+                      {exchangeRate.rate}
+                    {/if}
                   </div>
                 </div>
               </div>
