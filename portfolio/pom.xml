@@ -10,13 +10,13 @@
     <!-- Quarkus -->
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.29.0</quarkus.platform.version>
+    <quarkus.platform.version>3.29.3</quarkus.platform.version>
     <quarkus.renarde.version>3.1.2</quarkus.renarde.version>
     <!-- Web -->
     <bootstrap.version>5.3.8</bootstrap.version>
     <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
     <!-- Plugins -->
-    <compiler-plugin.version>3.14.0</compiler-plugin.version>
+    <compiler-plugin.version>3.14.1</compiler-plugin.version>
     <maven.compiler.release>21</maven.compiler.release>
     <surefire-plugin.version>3.5.4</surefire-plugin.version>
     <skipITs>true</skipITs>

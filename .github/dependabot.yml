@@ -1,0 +1,94 @@
+# Dependabot configuration for Vintage Store multi-module project
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Root pom.xml - Parent POM management
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - "agoncal"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "maven"
+
+  # currency module
+  - package-ecosystem: "maven"
+    directory: "/currency"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "agoncal"
+    commit-message:
+      prefix: "deps(currency)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "currency"
+      - "maven"
+
+  # portfolio module
+  - package-ecosystem: "maven"
+    directory: "/portfolio"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "agoncal"
+    commit-message:
+      prefix: "deps(portfolio)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "portfolio"
+      - "maven"
+
+  # trades module
+  - package-ecosystem: "maven"
+    directory: "/trades"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - "agoncal"
+    commit-message:
+      prefix: "deps(trades)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "trades"
+      - "maven"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "agoncal"
+    commit-message:
+      prefix: "deps(actions)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci"
