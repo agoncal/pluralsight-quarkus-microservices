@@ -2,7 +2,7 @@ package com.pluralsight.currencyexchange.portfolio;
 
 import com.google.protobuf.Empty;
 import com.pluralsight.currencyexchange.currency.CurrencyRateServiceGrpc;
-import com.pluralsight.currencyexchange.portfolio.trade.TradeService;
+import com.pluralsight.currencyexchange.portfolio.trade.TradeProxy;
 import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.HealthCheck;
@@ -24,10 +24,10 @@ public class PortfolioReadinessCheck implements HealthCheck {
   private static final Logger LOG = Logger.getLogger(PortfolioReadinessCheck.class);
 
   @GrpcClient("currency")
-  CurrencyRateServiceGrpc.CurrencyRateServiceBlockingStub currencyService;
+  CurrencyRateServiceGrpc.CurrencyRateServiceBlockingStub currencyStub;
 
   @RestClient
-  TradeService tradeService;
+  TradeProxy tradeProxy;
 
   @Override
   public HealthCheckResponse call() {
@@ -38,7 +38,7 @@ public class PortfolioReadinessCheck implements HealthCheck {
 
     // Ping Currency Service (gRPC)
     try {
-      currencyService.getAllCurrentRates(Empty.newBuilder().build());
+      currencyStub.getAllCurrentRates(Empty.newBuilder().build());
       currencyServiceReady = true;
     } catch (Exception e) {
       LOG.warn("Currency service ping failed: " + e.getMessage());
@@ -46,7 +46,7 @@ public class PortfolioReadinessCheck implements HealthCheck {
 
     // Ping Trades Service (REST)
     try {
-      tradeService.getAllTrades("readiness-check");
+      tradeProxy.getAllTrades("readiness-check");
       tradesServiceReady = true;
     } catch (Exception e) {
       LOG.warn("Trades service ping failed: " + e.getMessage());

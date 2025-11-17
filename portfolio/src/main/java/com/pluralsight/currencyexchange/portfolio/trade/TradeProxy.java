@@ -15,7 +15,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RegisterRestClient(configKey = "trades")
-public interface TradeService {
+public interface TradeProxy {
 
   @POST
   void executeTrade(Trade trade);

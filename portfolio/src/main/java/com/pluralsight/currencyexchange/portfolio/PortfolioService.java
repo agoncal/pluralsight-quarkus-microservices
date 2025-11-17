@@ -6,7 +6,7 @@ import com.pluralsight.currencyexchange.currency.CurrencyRateServiceGrpc;
 import com.pluralsight.currencyexchange.currency.CurrencyRequest;
 import static com.pluralsight.currencyexchange.portfolio.User.USER_PORTFOLIOS;
 import com.pluralsight.currencyexchange.portfolio.trade.Trade;
-import com.pluralsight.currencyexchange.portfolio.trade.TradeService;
+import com.pluralsight.currencyexchange.portfolio.trade.TradeProxy;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -32,10 +32,10 @@ public class PortfolioService {
   private static final Logger LOG = Logger.getLogger(PortfolioService.class);
 
   @GrpcClient("currency")
-  CurrencyRateServiceGrpc.CurrencyRateServiceBlockingStub exchangeRateService;
+  CurrencyRateServiceGrpc.CurrencyRateServiceBlockingStub currencyStub;
 
   @RestClient
-  TradeService tradeService;
+  TradeProxy tradeProxy;
 
   @Inject
   MeterRegistry meterRegistry;
@@ -47,21 +47,12 @@ public class PortfolioService {
     fallbackCounter = meterRegistry.counter("mymetric.portfolio.fallback");
   }
 
-  public List<Portfolio> getUserPortfolio(String userId) {
-    LOG.info("Get portfolio for user " + userId);
-
-    return USER_PORTFOLIOS.getOrDefault(userId, List.of())
-      .stream()
-      .sorted(Comparator.comparing(Portfolio::currency))
-      .toList();
-  }
-
   @Fallback(fallbackMethod = "fallbackGetAllCurrentRates")
   @Timed(value = "mymetric.portfolio.getAllCurrentRates")
   public List<CurrencyRate> getAllCurrentRates() {
     LOG.info("Get all currency rates");
 
-    return exchangeRateService.getAllCurrentRates(Empty.newBuilder().build()).getCurrencyRatesList();
+    return currencyStub.getAllCurrentRates(Empty.newBuilder().build()).getCurrencyRatesList();
   }
 
   @Fallback(fallbackMethod = "fallbackGetCurrentRate")
@@ -69,7 +60,7 @@ public class PortfolioService {
   public CurrencyRate getCurrentRate(String currencyCode) {
     LOG.info("Get currency rate: " + currencyCode);
 
-    return exchangeRateService.getCurrentRate(CurrencyRequest.newBuilder().setCurrencyCode(currencyCode).build()).getCurrencyRate();
+    return currencyStub.getCurrentRate(CurrencyRequest.newBuilder().setCurrencyCode(currencyCode).build()).getCurrencyRate();
   }
 
   @Fallback(fallbackMethod = "fallbackExecuteTrade")
@@ -77,7 +68,7 @@ public class PortfolioService {
   public void executeTrade(Trade trade) {
     LOG.info("Execute trade: " + trade);
 
-    tradeService.executeTrade(trade);
+    tradeProxy.executeTrade(trade);
     updateUserPortfolio(trade);
   }
 
@@ -87,7 +78,7 @@ public class PortfolioService {
   public List<Trade> getAllTrades(String userId) {
     LOG.info("Get all trades");
 
-    return tradeService.getAllTrades(userId);
+    return tradeProxy.getAllTrades(userId);
   }
 
   public List<CurrencyRate> fallbackGetAllCurrentRates() {
@@ -124,6 +115,15 @@ public class PortfolioService {
     fallbackCounter.increment();
 
     return FALLBACK_TRADES;
+  }
+
+  public List<Portfolio> getUserPortfolio(String userId) {
+    LOG.info("Get portfolio for user " + userId);
+
+    return USER_PORTFOLIOS.getOrDefault(userId, List.of())
+      .stream()
+      .sorted(Comparator.comparing(Portfolio::currency))
+      .toList();
   }
 
   private static void updateUserPortfolio(Trade trade) {
