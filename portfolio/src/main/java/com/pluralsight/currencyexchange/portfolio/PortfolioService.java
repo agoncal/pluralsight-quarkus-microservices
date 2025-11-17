@@ -47,17 +47,17 @@ public class PortfolioService {
     fallbackCounter = meterRegistry.counter("mymetric.portfolio.fallback");
   }
 
-  @Fallback(fallbackMethod = "fallbackGetAllCurrentRates")
-  @Timed(value = "mymetric.portfolio.getAllCurrentRates")
-  public List<CurrencyRate> getAllCurrentRates() {
+  @Fallback(fallbackMethod = "fallbackGetAllCurrencyRates")
+  @Timed(value = "mymetric.portfolio.getAllCurrencyRates")
+  public List<CurrencyRate> getAllCurrencyRates() {
     LOG.info("Get all currency rates");
 
     return currencyStub.getAllCurrentRates(Empty.newBuilder().build()).getCurrencyRatesList();
   }
 
-  @Fallback(fallbackMethod = "fallbackGetCurrentRate")
-  @Timed(value = "mymetric.portfolio.getCurrentRate")
-  public CurrencyRate getCurrentRate(String currencyCode) {
+  @Fallback(fallbackMethod = "fallbackGetCurrencyRate")
+  @Timed(value = "mymetric.portfolio.getCurrencyRate")
+  public CurrencyRate getCurrencyRate(String currencyCode) {
     LOG.info("Get currency rate: " + currencyCode);
 
     return currencyStub.getCurrentRate(CurrencyRequest.newBuilder().setCurrencyCode(currencyCode).build()).getCurrencyRate();
@@ -81,7 +81,7 @@ public class PortfolioService {
     return tradeProxy.getAllTrades(userId);
   }
 
-  public List<CurrencyRate> fallbackGetAllCurrentRates() {
+  public List<CurrencyRate> fallbackGetAllCurrencyRates() {
     LOG.warn("Falling back on get all currency rates");
     fallbackCounter.increment();
     return List.of(
@@ -94,7 +94,7 @@ public class PortfolioService {
     );
   }
 
-  public CurrencyRate fallbackGetCurrentRate(String currencyCode) {
+  public CurrencyRate fallbackGetCurrencyRate(String currencyCode) {
     LOG.warn("Falling back on get currency rate: " + currencyCode);
     fallbackCounter.increment();
 

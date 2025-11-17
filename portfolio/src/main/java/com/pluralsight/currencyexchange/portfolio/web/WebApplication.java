@@ -112,7 +112,7 @@ public class WebApplication extends Controller {
 
     User currentUser = userSession.getCurrentUser();
     List<Portfolio> portfolios = portfolioService.getUserPortfolio(currentUser.email());
-    List<CurrencyRate> exchangeRates = portfolioService.getAllCurrentRates();
+    List<CurrencyRate> exchangeRates = portfolioService.getAllCurrencyRates();
     List<Trade> trades = portfolioService.getAllTrades(currentUser.email());
     LOG.info("Viewing portfolio for user: " + currentUser.email() + " with " + portfolios.size() + " entries and " + trades.size() + " trades");
 
@@ -130,7 +130,7 @@ public class WebApplication extends Controller {
 
     User currentUser = userSession.getCurrentUser();
     List<Portfolio> portfolios = portfolioService.getUserPortfolio(currentUser.email());
-    List<CurrencyRate> exchangeRates = portfolioService.getAllCurrentRates();
+    List<CurrencyRate> exchangeRates = portfolioService.getAllCurrencyRates();
     List<Trade> trades = portfolioService.getAllTrades(currentUser.email());
     LOG.info("Refreshing portfolio for user: " + currentUser.email() + " with updated exchange rates");
 
@@ -163,7 +163,7 @@ public class WebApplication extends Controller {
 
     try {
       // Get current exchange rate for the target currency
-      CurrencyRate exchangeRate = portfolioService.getCurrentRate(toCurrency);
+      CurrencyRate exchangeRate = portfolioService.getCurrencyRate(toCurrency);
 
       // Create and execute trade
       Trade trade = new Trade(currentUser.email(), usdAmount, toCurrency, exchangeRate.getRate());

@@ -28,7 +28,7 @@ class PortfolioServiceTest {
   void mock() {
     PortfolioService mock = Mockito.mock(PortfolioService.class);
 
-    Mockito.when(mock.getAllCurrentRates()).thenReturn(List.of(
+    Mockito.when(mock.getAllCurrencyRates()).thenReturn(List.of(
       CurrencyRate.newBuilder().setCurrencyCode("AUD").setRate(1.5234).build(),
       CurrencyRate.newBuilder().setCurrencyCode("CAD").setRate(1.3425).build(),
       CurrencyRate.newBuilder().setCurrencyCode("CHF").setRate(1.3425).build(),
@@ -37,12 +37,12 @@ class PortfolioServiceTest {
       CurrencyRate.newBuilder().setCurrencyCode("JPY").setRate(149.25).build()
     ));
 
-    Mockito.when(mock.getCurrentRate("AUD")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("AUD").setRate(1.5234).build());
-    Mockito.when(mock.getCurrentRate("CAD")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("CAD").setRate(1.3425).build());
-    Mockito.when(mock.getCurrentRate("CHF")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("CHF").setRate(1.3425).build());
-    Mockito.when(mock.getCurrentRate("EUR")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("EUR").setRate(0.9217).build());
-    Mockito.when(mock.getCurrentRate("GBP")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("GBP").setRate(0.7905).build());
-    Mockito.when(mock.getCurrentRate("JPY")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("JPY").setRate(149.25).build());
+    Mockito.when(mock.getCurrencyRate("AUD")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("AUD").setRate(1.5234).build());
+    Mockito.when(mock.getCurrencyRate("CAD")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("CAD").setRate(1.3425).build());
+    Mockito.when(mock.getCurrencyRate("CHF")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("CHF").setRate(1.3425).build());
+    Mockito.when(mock.getCurrencyRate("EUR")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("EUR").setRate(0.9217).build());
+    Mockito.when(mock.getCurrencyRate("GBP")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("GBP").setRate(0.7905).build());
+    Mockito.when(mock.getCurrencyRate("JPY")).thenReturn(CurrencyRate.newBuilder().setCurrencyCode("JPY").setRate(149.25).build());
 
     Mockito.when(mock.getAllTrades("user456")).thenReturn(List.of(new Trade("user456", BigDecimal.valueOf(100), "EUR", new BigDecimal("92.00"), BigDecimal.valueOf(0.92))));
 
@@ -50,8 +50,8 @@ class PortfolioServiceTest {
   }
 
   @Test
-  void shouldGetAllCurrentRates() throws Exception {
-    List<CurrencyRate> currencyRates = portfolioService.getAllCurrentRates();
+  void shouldGetAllCurrencyRates() throws Exception {
+    List<CurrencyRate> currencyRates = portfolioService.getAllCurrencyRates();
 
     assertNotNull(currencyRates);
     assertEquals(6, currencyRates.size());
@@ -60,8 +60,8 @@ class PortfolioServiceTest {
 
   @ParameterizedTest
   @ValueSource(strings = {"AUD", "CAD", "CHF", "EUR", "GBP", "JPY"})
-  void shouldGetCurrentRate(String currencyCode) {
-    CurrencyRate currencyRate = portfolioService.getCurrentRate(currencyCode);
+  void shouldGetCurrencyRate(String currencyCode) {
+    CurrencyRate currencyRate = portfolioService.getCurrencyRate(currencyCode);
 
     assertNotNull(currencyRate);
     assertEquals(currencyCode, currencyRate.getCurrencyCode());
