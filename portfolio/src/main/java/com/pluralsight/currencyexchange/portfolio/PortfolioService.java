@@ -44,11 +44,11 @@ public class PortfolioService {
 
   @PostConstruct
   void init() {
-    fallbackCounter = meterRegistry.counter("mymetric.portfolio.fallback");
+    fallbackCounter = meterRegistry.counter("mymetric_portfolio_fallback");
   }
 
   @Fallback(fallbackMethod = "fallbackGetAllCurrencyRates")
-  @Timed(value = "mymetric.portfolio.getAllCurrencyRates")
+  @Timed(value = "mymetric_portfolio_getAllCurrencyRates")
   public List<CurrencyRate> getAllCurrencyRates() {
     LOG.info("Get all currency rates");
 
@@ -56,7 +56,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackGetCurrencyRate")
-  @Timed(value = "mymetric.portfolio.getCurrencyRate")
+  @Timed(value = "mymetric_portfolio_getCurrencyRate")
   public CurrencyRate getCurrencyRate(String currencyCode) {
     LOG.info("Get currency rate: " + currencyCode);
 
@@ -64,7 +64,7 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackExecuteTrade")
-  @Timed(value = "mymetric.portfolio.executeTrade")
+  @Timed(value = "mymetric_portfolio_executeTrade")
   public void executeTrade(Trade trade) {
     LOG.info("Execute trade: " + trade);
 
@@ -74,7 +74,7 @@ public class PortfolioService {
 
   @Fallback(fallbackMethod = "fallbackGetAllTrades")
   @Retry(maxRetries = 3, delay = 5, delayUnit = ChronoUnit.SECONDS)
-  @Timed(value = "mymetric.portfolio.getAllTrades")
+  @Timed(value = "mymetric_portfolio_getAllTrades")
   public List<Trade> getAllTrades(String userId) {
     LOG.info("Get all trades");
 
