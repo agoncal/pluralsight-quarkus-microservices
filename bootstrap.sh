@@ -30,7 +30,7 @@ quarkus create app ${GROUP_ID}:currency:${VERSION} \
   --platform-bom=${QUARKUS_VERSION} \
   --java=21 \
   --code \
-  --app-config="quarkus.http.port=8082,quarkus.grpc.server.port=8082,quarkus.grpc.server.host=0.0.0.0,quarkus.grpc.server.use-separate-server=false,quarkus.application.name=Currency Micro Service,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,exchange-rates.fluctuation-factor=0.02,quarkus.grpc.server.enable-reflection-service=true,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=currency,quarkus.container-image.tag=jvm"
+  --app-config="quarkus.http.port=8082,quarkus.grpc.server.port=8082,quarkus.grpc.server.host=0.0.0.0,quarkus.grpc.server.use-separate-server=false,quarkus.application.name=Currency Micro Service,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,exchange-rates.fluctuation-factor=0.02,quarkus.grpc.server.enable-reflection-service=true,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=currency,quarkus.container-image.tag=latest"
 
 cd currency
 
@@ -55,7 +55,7 @@ quarkus create app ${GROUP_ID}:trades:${VERSION} \
   --platform-bom=${QUARKUS_VERSION} \
   --java=21 \
   --code \
-  --app-config="quarkus.http.port=8083,quarkus.application.name=Trading Micro Service,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,quarkus.smallrye-openapi.info-title=Currency Exchange Trades API,quarkus.smallrye-openapi.info-version=1.0.0,quarkus.smallrye-openapi.info-description=REST API for executing USD-based currency exchange trades and retrieving trade history,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=trades,quarkus.container-image.tag=jvm"
+  --app-config="quarkus.http.port=8083,quarkus.application.name=Trading Micro Service,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,quarkus.smallrye-openapi.info-title=Currency Exchange Trades API,quarkus.smallrye-openapi.info-version=1.0.0,quarkus.smallrye-openapi.info-description=REST API for executing USD-based currency exchange trades and retrieving trade history,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=trades,quarkus.container-image.tag=latest"
 
 cd trades
 
@@ -82,7 +82,7 @@ quarkus create app ${GROUP_ID}:portfolio:${VERSION} \
   --platform-bom=${QUARKUS_VERSION} \
   --java=21 \
   --code \
-  --app-config="quarkus.http.port=8080,quarkus.application.name=Portfolio Service,quarkus.grpc.server.use-separate-server=false,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,quarkus.rest-client.trades.url=http://localhost:8083,quarkus.grpc.clients.currency.host=localhost,quarkus.grpc.clients.currency.port=8082,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=portfolio,quarkus.container-image.tag=jvm"
+  --app-config="quarkus.http.port=8080,quarkus.application.name=Portfolio Service,quarkus.grpc.server.use-separate-server=false,quarkus.log.level=INFO,quarkus.log.category.\"${GROUP_ID}\".level=DEBUG,quarkus.rest-client.trades.url=http://localhost:8083,quarkus.grpc.clients.currency.host=localhost,quarkus.grpc.clients.currency.port=8082,quarkus.container-image.group=currencyexchange,quarkus.container-image.name=portfolio,quarkus.container-image.tag=latest"
 
 cd portfolio
 

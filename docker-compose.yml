@@ -1,7 +1,7 @@
 services:
   currency:
-    image: currencyexchange/currency:jvm
-    container_name: currency-service-jvm
+    image: currencyexchange/currency:latest
+    container_name: currency-service
     ports:
       - "8082:8082"
     networks:
@@ -14,8 +14,8 @@ services:
       start_period: 40s
 
   trades:
-    image: currencyexchange/trades:jvm
-    container_name: trades-service-jvm
+    image: currencyexchange/trades:latest
+    container_name: trades-service
     ports:
       - "8083:8083"
     networks:
@@ -28,8 +28,8 @@ services:
       start_period: 40s
 
   portfolio:
-    image: currencyexchange/portfolio:jvm
-    container_name: portfolio-service-jvm
+    image: currencyexchange/portfolio:latest
+    container_name: portfolio-service
     ports:
       - "8080:8080"
     environment:
