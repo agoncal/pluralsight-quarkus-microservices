@@ -73,7 +73,6 @@ public class PortfolioService {
   }
 
   @Fallback(fallbackMethod = "fallbackGetAllTrades")
-  @Retry(maxRetries = 3, delay = 5, delayUnit = ChronoUnit.SECONDS)
   @Timed(value = "mymetric_portfolio_getAllTrades")
   public List<Trade> getAllTrades(String userId) {
     LOG.info("Get all trades");
