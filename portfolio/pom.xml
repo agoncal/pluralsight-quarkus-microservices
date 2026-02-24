@@ -18,7 +18,7 @@
     <!-- Plugins -->
     <compiler-plugin.version>3.15.0</compiler-plugin.version>
     <maven.compiler.release>21</maven.compiler.release>
-    <surefire-plugin.version>3.5.4</surefire-plugin.version>
+    <surefire-plugin.version>3.5.5</surefire-plugin.version>
     <skipITs>true</skipITs>
     <!-- Project -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
